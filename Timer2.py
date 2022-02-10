@@ -2,10 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 import winsound
 
+
 # TODO: Correct timer to tick of system clock instead of system count
 # TODO: Block non-number input
 # TODO: Save timers instead of hard code with pickling or json
 # TODO: Different end timer sounds
+
 
 class WorkTimer():
     """ A visual task timer that can add and delete tasks
@@ -56,12 +58,14 @@ class WorkTimer():
         minute_amount_entry.delete(0, last=30)
         minute_amount_entry.insert(0, f"{temp_mins}")
 
+
     def sub_mins():
         """" Subtract seconds from new timer """
         global temp_mins
         temp_mins -= 1
         minute_amount_entry.delete(0, last=30)
         minute_amount_entry.insert(0, f"{temp_mins}")
+
 
     def add_secs():
         """ Add 10 seconds to new timer """
@@ -70,6 +74,7 @@ class WorkTimer():
         second_amount_entry.delete(0, last=30)
         second_amount_entry.insert(0, f"{temp_secs}")
     
+
     def sub_secs():
         """ Subtract 10 seconds from new timer """
         global temp_secs
@@ -95,6 +100,8 @@ class WorkTimer():
 
         
         """
+
+
         # variables and flags
         self.counting_down = True
         self.mins = mins
@@ -119,6 +126,7 @@ class WorkTimer():
             self.secs -= 1
             root.after(1000, self.countdown, self.mins, self.secs)
 
+
     def negative_countup(self):
         """ Counts past zero with red background once timer reaches zero """
         # Beeps when timer reaches zero
@@ -137,6 +145,7 @@ class WorkTimer():
             self.new_timer_label["bg"] = "red"
             self.secs += 1
             root.after(1000, self.negative_countup)
+
 
     def countup(self):
         """ Used to count up from zero 
@@ -186,6 +195,7 @@ class WorkTimer():
                 self.counting = True
                 self.countdown(self.mins, self.secs)
 
+
 # To help create new objects with dynamic names
     def new_timer_obj():
         """ Creates a new timer object when the 'Add Timer' button is pressed"""
@@ -200,6 +210,7 @@ class WorkTimer():
         timer_name_list[timer_number] = WorkTimer(str_name, temp_mins, temp_secs)
         timer_name_list[timer_number].create_new_timer_button(str_name)
         timer_number += 1
+
 
 # To create and initialize new buttons and labels that are created with new_timer_obj
     def create_new_timer_button(self, str_name):
@@ -224,13 +235,24 @@ class WorkTimer():
         self.new_timer_label.grid(row=button_row, column=7, columnspan= 2, padx=4, pady=4)
         button_row += 1
 
+
+
+
 class WorkTask():
     """ Counter that can add or subtract countable tasks
 
+    This class pairs with WorkTimer class and add countable tasks.
+    New tasks can be given a name and a default counter before being added by the 'Add Task' button.
 
+    Parameters
+    ----------
+    task_num: int
+        The defualt number of tasks for a new named task
     """
+
     def __init__(self, name, task_num) -> None:
         self.task_num = task_num
+
 
     def new_task():
         global task_count
@@ -241,6 +263,7 @@ class WorkTask():
         task_name_list[task_number] = WorkTask(task_name, task_count)
         task_name_list[task_number].create_new_task_button(task_name)
         task_number += 1
+
 
     def create_new_task_button(self, task_name):
         global button_row
@@ -257,6 +280,7 @@ class WorkTask():
 
         button_row += 1
 
+
     # Increment/Decrement task count
     def add_task():
         global task_count
@@ -264,15 +288,18 @@ class WorkTask():
         task_count_entry.delete(0, last=30)
         task_count_entry.insert(0, f"{task_count}")
     
+
     def sub_task():
         global task_count
         task_count -= 1
         task_count_entry.delete(0, last=30)
         task_count_entry.insert(0, f"{task_count}")
 
+
     def after_add_task(self):
         self.task_num += 1
         self.new_task_count_label["text"] = f'{self.task_num}'
+
 
     def after_sub_task(self):
         self.task_num -= 1
@@ -380,7 +407,7 @@ if __name__ == "__main__":
     fourth_timer = WorkTimer(str_name, temp_mins, temp_secs)
     fourth_timer.create_new_timer_button(str_name)
 
-    str_name = "Social Media/YouTube"
+    str_name = "Social Media / YouTube"
     temp_mins = 30
     temp_secs = 0
     fourth_timer = WorkTimer(str_name, temp_mins, temp_secs)
