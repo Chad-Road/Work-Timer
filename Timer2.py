@@ -2,12 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 import winsound
 
-
 # TODO: Correct timer to tick of system clock instead of system count
 # TODO: Block non-number input
 # TODO: Save timers instead of hard code with pickling or json
 # TODO: Different end timer sounds
-
 
 class WorkTimer():
     """ A visual task timer that can add and delete tasks
@@ -30,7 +28,7 @@ class WorkTimer():
     Flags are used to allow stopping and restarting counts.
     If you want a non-stop timer, you can remove the counting flags.
     """
-
+    ### Class constructor for timers
     def __init__(self, name, mins, secs) -> None:
         # Object parameters
         self.name = name
@@ -49,7 +47,6 @@ class WorkTimer():
         self.counting_down = False
         self.negative_count = False
         
-
     ### Methods to add and subtract minuntes/seconds
     def add_mins():
         """ Add minutes to new timer """
@@ -58,14 +55,12 @@ class WorkTimer():
         minute_amount_entry.delete(0, last=30)
         minute_amount_entry.insert(0, f"{temp_mins}")
 
-
     def sub_mins():
         """" Subtract seconds from new timer """
         global temp_mins
         temp_mins -= 1
         minute_amount_entry.delete(0, last=30)
         minute_amount_entry.insert(0, f"{temp_mins}")
-
 
     def add_secs():
         """ Add 10 seconds to new timer """
@@ -74,14 +69,12 @@ class WorkTimer():
         second_amount_entry.delete(0, last=30)
         second_amount_entry.insert(0, f"{temp_secs}")
     
-
     def sub_secs():
         """ Subtract 10 seconds from new timer """
         global temp_secs
         temp_secs -= 10
         second_amount_entry.delete(0, last=30)
         second_amount_entry.insert(0, f"{temp_secs}")
-
 
     ### Methods to control counting up/down or back up after zero on countdown
     def countdown(self, mins, secs):
@@ -97,11 +90,7 @@ class WorkTimer():
             The number of minutes in the current timer
         secs: int
             The number of seconds in the current timer
-
-        
         """
-
-
         # variables and flags
         self.counting_down = True
         self.mins = mins
@@ -126,7 +115,6 @@ class WorkTimer():
             self.secs -= 1
             root.after(1000, self.countdown, self.mins, self.secs)
 
-
     def negative_countup(self):
         """ Counts past zero with red background once timer reaches zero """
         # Beeps when timer reaches zero
@@ -146,7 +134,6 @@ class WorkTimer():
             self.secs += 1
             root.after(1000, self.negative_countup)
 
-
     def countup(self):
         """ Used to count up from zero 
         
@@ -163,7 +150,6 @@ class WorkTimer():
             self.new_timer_label["text"] = f"{self.mins:02d}:{self.secs:02d}"
             self.secs += 1
             root.after(1000, self.countup)
-
 
     # To control start/stop button 
     def btn_click(self):
@@ -195,7 +181,6 @@ class WorkTimer():
                 self.counting = True
                 self.countdown(self.mins, self.secs)
 
-
 # To help create new objects with dynamic names
     def new_timer_obj():
         """ Creates a new timer object when the 'Add Timer' button is pressed"""
@@ -210,7 +195,6 @@ class WorkTimer():
         timer_name_list[timer_number] = WorkTimer(str_name, temp_mins, temp_secs)
         timer_name_list[timer_number].create_new_timer_button(str_name)
         timer_number += 1
-
 
 # To create and initialize new buttons and labels that are created with new_timer_obj
     def create_new_timer_button(self, str_name):
@@ -235,9 +219,6 @@ class WorkTimer():
         self.new_timer_label.grid(row=button_row, column=7, columnspan= 2, padx=4, pady=4)
         button_row += 1
 
-
-
-
 class WorkTask():
     """ Counter that can add or subtract countable tasks
 
@@ -249,11 +230,10 @@ class WorkTask():
     task_num: int
         The defualt number of tasks for a new named task
     """
-
     def __init__(self, name, task_num) -> None:
         self.task_num = task_num
 
-
+    # Adds a new task with a set number of subtasks onto the list
     def new_task():
         global task_count
         global task_number
@@ -264,7 +244,7 @@ class WorkTask():
         task_name_list[task_number].create_new_task_button(task_name)
         task_number += 1
 
-
+    # Sets the formating and function for new task button
     def create_new_task_button(self, task_name):
         global button_row
         task_name = task_name.upper()
@@ -280,31 +260,29 @@ class WorkTask():
 
         button_row += 1
 
-
-    # Increment/Decrement task count
+    # Add one more subtask to the task count before the new task is created
     def add_task():
         global task_count
         task_count += 1
         task_count_entry.delete(0, last=30)
         task_count_entry.insert(0, f"{task_count}")
     
-
+    # Subtract one subtask from the task count before the new task is created
     def sub_task():
         global task_count
         task_count -= 1
         task_count_entry.delete(0, last=30)
         task_count_entry.insert(0, f"{task_count}")
 
-
+    # Add another subtask after the task has been created
     def after_add_task(self):
         self.task_num += 1
         self.new_task_count_label["text"] = f'{self.task_num}'
 
-
+    # Subtract a subtask after the task has been created
     def after_sub_task(self):
         self.task_num -= 1
         self.new_task_count_label["text"] = f'{self.task_num}'
-
 
 
 if __name__ == "__main__":
@@ -369,8 +347,7 @@ if __name__ == "__main__":
     task_name_entry.grid(row=1, column=9, padx=4, pady=4)
     add_new_task_button.grid(row=1, column=10, padx=4, pady=4, ipadx=3)
 
-
-    # Custom code for remembering countdowns - before saving is implemented
+    # Custom code for defualt countdowns - before saving is implemented
     str_name = "Coding Practice"
     temp_mins = 10
     temp_secs = 0
@@ -407,12 +384,6 @@ if __name__ == "__main__":
     fourth_timer = WorkTimer(str_name, temp_mins, temp_secs)
     fourth_timer.create_new_timer_button(str_name)
 
-    str_name = "Social Media / YouTube"
-    temp_mins = 30
-    temp_secs = 0
-    fourth_timer = WorkTimer(str_name, temp_mins, temp_secs)
-    fourth_timer.create_new_timer_button(str_name)
-
     str_name = "Wildcard"
     temp_mins = 60
     temp_secs = 0
@@ -421,7 +392,6 @@ if __name__ == "__main__":
 
     temp_mins = 0
     temp_secs = 0
-
 
     # start tkinter loop
     root.mainloop()
